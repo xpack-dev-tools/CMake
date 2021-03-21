@@ -1,5 +1,10 @@
 /* Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
    file Copyright.txt or https://cmake.org/licensing for details.  */
+
+// FIXME: Port to QFileSystemModel from the deprecated QDirModel.
+// Be sure completion works when incrementally editing existing paths.
+#define QT_DEPRECATED_WARNINGS_SINCE QT_VERSION_CHECK(5, 14, 0)
+
 #include "QCMakeWidgets.h"
 
 #include <utility>
@@ -17,8 +22,8 @@ QCMakeFileEditor::QCMakeFileEditor(QWidget* p, QString var)
   this->ToolButton = new QToolButton(this);
   this->ToolButton->setText("...");
   this->ToolButton->setCursor(QCursor(Qt::ArrowCursor));
-  QObject::connect(this->ToolButton, SIGNAL(clicked(bool)), this,
-                   SLOT(chooseFile()));
+  QObject::connect(this->ToolButton, &QToolButton::clicked, this,
+                   &QCMakeFileEditor::chooseFile);
 }
 
 QCMakeFilePathEditor::QCMakeFilePathEditor(QWidget* p, const QString& var)
